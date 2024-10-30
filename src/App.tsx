@@ -1,25 +1,56 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import GlobalStyles from "./styles/GlobalStyles";
+import {
+  AppStyled,
+  MainContainerStyled,
+  ButtonControlsContainer,
+} from "./AppStyles";
+
+import { Header, MainGameContainer, PlayerContainer } from "./components";
+import { useGame } from "./context/game-context/GameContext";
+import { GameMode } from "./models/game.models";
+import { ThemeProvider } from "styled-components";
+import { theme } from "./styles/Theme";
+import { buttonConfigFactory } from "./utils/helpers";
 
 function App() {
+  const {
+    changeGameModeFunctionality: { choseGameMode, gameMode },
+  } = useGame();
+
+  const buttonConfiguration = [
+    {
+      currentMode: gameMode,
+      gameMode: GameMode.PLAYER_VS_PLAYER,
+      choseGameMode,
+    },
+    {
+      currentMode: gameMode,
+      gameMode: GameMode.PLAYER_VS_AI,
+      choseGameMode,
+    },
+  ].map(({ currentMode, gameMode, choseGameMode }) =>
+    buttonConfigFactory(currentMode, gameMode, choseGameMode)
+  );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <GlobalStyles />
+      <AppStyled>
+        <Header />
+        <MainContainerStyled>
+          <ButtonControlsContainer>
+            {buttonConfiguration.map(({ handler, active, content }, index) => (
+              <button onClick={handler} key={index} className={active}>
+                {content}
+              </button>
+            ))}
+          </ButtonControlsContainer>
+          <MainGameContainer />
+          <PlayerContainer />
+        </MainContainerStyled>
+      </AppStyled>
+    </ThemeProvider>
   );
 }
 
