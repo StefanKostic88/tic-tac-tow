@@ -22,18 +22,19 @@ export const ButtonControlsContainer = styled.div`
     background-color: transparent;
     border: none;
     outline: none;
-    box-shadow: ${({ theme }) => theme.colors.boxShadowSecondary};
-    color: #094787;
+    box-shadow: ${({ theme }) => theme.colors.boxShadowPrimar};
+    color:  rgb(72 219 251);
     font-size: 22px;
     border-radius: 7px;
     cursor: pointer;
     font-family: inherit;
     letter-spacing: 1px;
-    transition: background-color 700ms ease, box-shadow 700ms ease, color 700ms ease;
+    transition: background-color 700ms ease, box-shadow 700ms ease, color 700ms ease, scale 700ms ease;
+    opacity: 0.5;
 
     &.active {
-      box-shadow: ${({ theme }) => theme.colors.boxShadowPrimar};
-      color:  rgb(72 219 251);
+     opacity: 1;
+     scale: 1.05;
     }
     }
   }
